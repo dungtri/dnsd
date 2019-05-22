@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace tests
@@ -33,11 +37,46 @@ namespace tests
         public IEnumerable<DNSQuery> Queries { get; set; }
     }
 
+
+    public class UdpListener
+    {
+        private async static Task StartListenerAsync(int listenPort, int millisecondsDelay = 0)
+        {
+            UdpClient listener = new UdpClient(listenPort);
+            
+            try
+            {
+                while (true)
+                {
+                    var received = await listener.ReceiveAsync();
+                    var dns = new DNS()
+                    {
+                        TransactionID = BitConverter.ToInt16(received.Buffer, 0),
+                    };
+
+
+
+                    await Task.Delay(millisecondsDelay);
+                }
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine(e);
+            }
+            finally
+            {
+                listener.Close();
+            }
+        }
+    }
+
     public class UnitTest1
     {
         [Fact]
         public void Test1()
         {
+
+            UdpListener listener = 
 
         }
     }
