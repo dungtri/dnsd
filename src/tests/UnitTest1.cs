@@ -49,9 +49,14 @@ namespace tests
                 while (true)
                 {
                     var received = await listener.ReceiveAsync();
+                    var bytes = received.Buffer;
+
+                    if (BitConverter.IsLittleEndian)
+                        Array.Reverse(bytes);
+
                     var dns = new DNS()
                     {
-                        TransactionID = BitConverter.ToInt16(received.Buffer, 0),
+                        TransactionID = BitConverter.ToInt16(bytes, 0),
                     };
 
 
