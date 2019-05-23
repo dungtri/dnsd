@@ -1,12 +1,21 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 
-namespace app
+namespace App
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static readonly Logger Logger = new Logger();
+
+        private const string AppName = "Cluster DNS Deamon";
+
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Logger.Log($"{AppName} started.");
+
+            var process = new Start(Logger);
+            await process.GoAsync();
+
+            Logger.Log($"{AppName} exited.");
         }
     }
 }
