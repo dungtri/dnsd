@@ -1,2 +1,2 @@
 # dnsd
-C# DNS Server
+C# DNS Server : NOT MAINTAINED
